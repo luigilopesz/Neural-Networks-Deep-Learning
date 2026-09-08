@@ -1,8 +1,9 @@
 name: ci
 on:
-  - push
-  - pull_request
-  
+  push:
+  pull_request:
+  workflow_dispatch:
+
 # Environment
 env:
   CI: true
