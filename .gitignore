@@ -3,3 +3,7 @@ env/
 .cache/
 .vscode/
 target/
+__pycache__/
+
+# Kaggle competition data must not be redistributed
+docs/exercises/data/code/data/

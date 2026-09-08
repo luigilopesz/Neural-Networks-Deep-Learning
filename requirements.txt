@@ -14,5 +14,7 @@ termynal
 matplotlib
 numpy
 pandas
-yfinance
+scikit-learn
+seaborn
+kagglehub
 

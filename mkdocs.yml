@@ -1,8 +1,8 @@
-site_name: Template de Entrega
-site_author: Sandmann, H.
-site_url: https://hsandmann.github.io/documentation.template
-repo_url: https://github.com/hsandmann/documentation.template
-repo_name: github/documentation.template
+site_name: Artificial Neural Networks & Deep Learning
+site_author: Luigi Lopes
+site_url: https://luigilopesz.github.io/Neural-Networks-Deep-Learning
+repo_url: https://github.com/luigilopesz/Neural-Networks-Deep-Learning
+repo_name: luigilopesz/Neural-Networks-Deep-Learning
 
 theme:
   name: material
@@ -110,7 +110,7 @@ plugins:
       enable_creation_date: true
   - git-authors
   - git-committers:
-      repository: hsandmann/documentation.template
+      repository: luigilopesz/Neural-Networks-Deep-Learning
       branch: main
   - search
   - badges
@@ -128,6 +128,8 @@ plugins:
   - mkdocs-jupyter:
       execute: false
       allow_errors: false
+      ignore:
+        - "*/exercises/data/code/*.py"
 
 extra_javascript:
   - https://unpkg.com/mathjax/es5/tex-mml-chtml.js
@@ -147,5 +149,6 @@ nav:
     - Roteiro 2: ./roteiro2/index.md
     - Roteiro 3: ./roteiro3/index.md
     - Roteiro 4: ./roteiro4/index.md
-    - Notebook 1: ./notebook1/ex1_data.ipynb
+  - Exercises:
+    - Data: ./exercises/data/index.md
   - Projeto: ./projeto/index.md

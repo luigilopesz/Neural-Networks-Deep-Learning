@@ -1,21 +1,21 @@
+## Objetivo
 
-Running the code below in Browser (Woooooowwwwww!!!!!!). [^1]
+*A ser preenchido quando o roteiro for atribuído.*
 
+## Montagem do Roteiro
 
-``` pyodide install="pandas,ssl"
-import ssl
-import pandas as pd
+### Tarefa 1
 
-df = pd.DataFrame()
-df['AAPL'] = pd.Series([1, 2, 3])
-df['MSFT'] = pd.Series([4, 5, 6])
-df['GOOGL'] = pd.Series([7, 8, 9])
+### Tarefa 2
 
-print(df)
+## Questionário, Projeto ou Plano
 
-```
+Essa seção deve ser preenchida apenas se houver demanda do roteiro.
 
-[^1]: [Pyodide](https://pawamoy.github.io/markdown-exec/usage/pyodide/){target="_blank"}
+## Discussões
 
+Quais as dificuldades encontradas? O que foi mais fácil? O que foi mais difícil?
 
+## Conclusão
 
+O que foi possível concluir com a realização do roteiro?

@@ -1,52 +1,21 @@
-### Diagrama de Classes do Banco
+## Objetivo
 
-``` mermaid
-classDiagram
-    class Conta {
-        - String id
-        # double saldo
-        - Cliente cliente
-        + sacar(double valor)
-        + depositar(double valor)
-    }
-    class Cliente {
-        - String id
-        - String nome
-        - List<Conta> contas
-    }
-    class PessoaFisica {
-        - String cpf
-    }
-    class PessoaJuridica {
-        - String cnpj
-    }
-    class ContaCorrente {
-        - double limite
-        + sacar(double valor)
-    }
-    class ContaPoupanca {
-        + sacar(double valor)
-    }
-    Conta *-- Cliente
-    Conta <|-- ContaCorrente
-    Conta <|-- ContaPoupanca
-    Cliente <|-- PessoaFisica
-    Cliente <|-- PessoaJuridica
-```
+*A ser preenchido quando o roteiro for atribuído.*
 
-### Diagrama de Seqüência de Autorização
+## Montagem do Roteiro
 
-``` mermaid
-sequenceDiagram
-  autonumber
-  actor User
-  User->>Auth Service: request with token
-  Auth Service->>Auth Service: decodes the token and extracts claims
-  Auth Service->>Auth Service: verifies permissions
-  critical allowed
-    Auth Service->>Secured Resource: authorizes the request
-    Secured Resource->>User: returns the response
-  option denied
-    Auth Service-->>User: unauthorized message
-  end  
-```
+### Tarefa 1
+
+### Tarefa 2
+
+## Questionário, Projeto ou Plano
+
+Essa seção deve ser preenchida apenas se houver demanda do roteiro.
+
+## Discussões
+
+Quais as dificuldades encontradas? O que foi mais fácil? O que foi mais difícil?
+
+## Conclusão
+
+O que foi possível concluir com a realização do roteiro?

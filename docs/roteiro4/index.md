@@ -1,12 +1,21 @@
-Se chegou aqui, é porque você está interessado em saber mais. Logo, de brinde, como rodar um código `Python` aqui.
+## Objetivo
 
-``` python exec="on" html="1"
---8<-- "./docs/roteiro4/limit.def.py"
-```
+*A ser preenchido quando o roteiro for atribuído.*
 
-``` python exec="on" html="1"
---8<-- "./docs/roteiro4/smc.py"
-```
+## Montagem do Roteiro
 
+### Tarefa 1
 
-[Markdown-exec](https://pawamoy.github.io/markdown-exec/usage/){:target='_blank'} é uma extensão do [Markdown](https://www.markdownguide.org/){:target='_blank'} que permite executar código Python diretamente no Markdown. Isso é útil para gerar resultados dinâmicos ou executar scripts de forma interativa.
+### Tarefa 2
+
+## Questionário, Projeto ou Plano
+
+Essa seção deve ser preenchida apenas se houver demanda do roteiro.
+
+## Discussões
+
+Quais as dificuldades encontradas? O que foi mais fácil? O que foi mais difícil?
+
+## Conclusão
+
+O que foi possível concluir com a realização do roteiro?

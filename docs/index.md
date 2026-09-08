@@ -1,100 +1,46 @@
-# Template de Entrega
+This site is the coursework repository for **Artificial Neural Networks and Deep Learning**, maintained by Luigi Lopes ([@luigilopesz](https://github.com/luigilopesz){:target="_blank"}). It works as a lab notebook: a short primer on the field below, followed by the roteiros and exercises worked through as the course progresses.
 
+## What a Neural Network Actually Is
 
-???+ info inline end "Edição"
+Strip away the biological metaphor and a neural network is just a parametric function built from simple, repeated pieces: an affine map (multiply by a weight matrix, add a bias) followed by a fixed nonlinearity, stacked layer after layer. One layer alone is close to linear regression; stacking many of them is what makes the difference. Each layer transforms the representation it receives from the one before it, and with enough layers and enough width the resulting function can approximate a very broad class of continuous input-output mappings — the *universal approximation* property.
 
-    2025.1
+"Learning" means searching for the weight values that make the network's output match a set of known examples. That search is gradient descent, and the gradients come from **backpropagation** — an automated, layer-by-layer application of the calculus chain rule, computed from the output back to the input. Whether a large-enough network *can* represent a given function is usually not the binding constraint; whether that function is actually *reachable* by gradient descent, from a random starting point, on a finite dataset, in finite time, is. Most of the field's day-to-day methodology — initialization schemes, normalization layers, optimizer design, architectures with built-in structural priors — exists to close that gap between representational capacity and what gradient descent actually finds.
 
+!!! note "The other defining trait"
 
-## Grupo/Kit X
+    In a classical pipeline, a human hand-crafts features before a simple classifier ever sees the data. A neural network folds feature construction into the same optimization that fits the final decision, so the intermediate representations are **learned**, not designed — they adapt to whatever the data actually contains.
 
-1. João da Silva
-1. Pedro de Souza
-1. Maria Oliveira
-1. Grupo K
-    - João da Silva
-    - Pedro de Souza
+## Why Depth Changed Everything
 
+"Deep" simply means many layers, but depth buys something specific: **hierarchy**. Each layer builds on the abstractions the previous one produced, so a vision network's early layers tend to respond to edges and simple textures, middle layers to parts and motifs, and later layers to whole objects — without anyone specifying that hierarchy by hand. The same pattern shows up in language, audio, and tabular problems alike: depth lets a model build its own ladder of increasingly abstract features on the way from raw input to prediction.
 
+That idea existed long before it was practical. What actually made deep networks trainable and worth using at scale was three trends converging at once:
 
-!!! tip "Instruções"
+- **Data** large enough to constrain millions of parameters without simply memorizing it.
+- **Compute** cheap and parallel enough — GPUs, and the matrix-multiply-heavy nature of neural nets — to fit those parameters in reasonable time.
+- **Algorithmic fixes**: better weight initialization, normalization layers, more robust optimizers, and architectures such as convolutions and attention that bake in a useful prior about the data's structure instead of leaving the network to rediscover it from scratch.
 
-    Vocês devem utilizar este template como um bloco de notas para registrar o que foi feito e o que falta fazer. Vocês devem adicionar as informações necessárias.
-    O template deve ser editado e atualizado a cada entrega, registrando assim a data de entrega e o que foi feito até o momento via Git.
+The result is a tool that is now the default choice whenever a mapping from input to output is too intricate to specify with explicit rules, but there is enough example data to let a model infer it: recognizing images and speech, generating text and media, ranking and recommending, and increasingly, driving decisions in systems that used to run on hand-tuned heuristics.
 
-## Entregas
+## A Short, Selective Timeline
 
-- [x] Roteiro 1 - Data 23/02/2025
-- [ ] Roteiro 2
-- [ ] Roteiro 3
-- [ ] Roteiro 4
-- [ ] Projeto
+| Year | Milestone |
+|---|---|
+| 1958 | Frank Rosenblatt builds the **Perceptron**, a single-layer linear classifier — the field's founding architecture, and soon after, its first well-known limitation: a lone perceptron cannot represent a function as simple as XOR. |
+| 1986 | Rumelhart, Hinton, and Williams popularize **backpropagation** for multi-layer networks, turning "stack more layers" from a theoretical idea into something that could actually be trained end-to-end. |
+| 1998 | Yann LeCun's **LeNet** applies convolutional networks to handwritten digit recognition at production scale, establishing weight sharing and pooling as the template for image architectures for the next decade. |
+| 2012 | **AlexNet**, a deep convolutional network trained on GPUs, wins the ImageNet competition, outperforming the hand-engineered computer-vision pipelines that preceded it — commonly cited as the point where convolutional networks became the standard approach in computer vision. |
+| 2015 | **Batch normalization** and **residual connections** (ResNets) arrive in close succession, making networks hundreds of layers deep reliably trainable for the first time. |
+| 2017 | *Attention Is All You Need* introduces the **Transformer**, replacing recurrence with self-attention. It becomes the backbone architecture behind nearly every large-scale language and multimodal model that follows. |
+| 2020s | **Scaling** — more parameters, more data, more compute, largely on transformer backbones — becomes a research strategy in its own right, producing general-purpose large language and multimodal models now used as foundations for downstream systems. |
 
-## Diagramas
+## About This Repository
 
-Use o [Mermaid](https://mermaid.js.org/intro/){:target='_blank'} para criar os diagramas de documentação.
+Each roteiro and exercise in the navigation follows the same shape: a stated goal, the steps or dataset involved, the executed code, and a discussion of what the results show.
 
-[Mermaid Live Editor](https://mermaid.live/){:target='_blank'}
+!!! tip "Where to go next"
 
+    - **Roteiros** — the guided lab worksheets for the course, one per assignment.
+    - **Exercises** — the coursework notebooks, where the datasets, models, and results actually live. Exercise Set 1 (Data) comes first, because a network's output depends on how the data it sees was generated or prepared: its geometry, whether a linear model can separate the classes at all, and how a preprocessing pipeline can leak information from a held-out split, all constrain what any model trained on it can subsequently learn.
 
-``` mermaid
-flowchart TD
-    Deployment:::orange -->|defines| ReplicaSet
-    ReplicaSet -->|manages| pod((Pod))
-    pod:::red -->|runs| Container
-    Deployment -->|scales| pod
-    Deployment -->|updates| pod
-
-    Service:::orange -->|exposes| pod
-
-    subgraph  
-        ConfigMap:::orange
-        Secret:::orange
-    end
-
-    ConfigMap --> Deployment
-    Secret --> Deployment
-    classDef red fill:#f55
-    classDef orange fill:#ffa500
-```
-
-
-
-## Códigos
-
-=== "De um arquivo remoto"
-
-    ``` { .yaml .copy .select linenums='1' title="main.yaml" }
-    --8<-- "https://raw.githubusercontent.com/hsandmann/documentation.template/refs/heads/main/.github/workflows/main.yaml"
-    ```
-
-=== "Anotações no código"
-
-    ``` { .yaml title="compose.yaml" }
-    name: app
-
-        db:
-            image: postgres:17
-            environment:
-                POSTGRES_DB: ${POSTGRES_DB:-projeto} # (1)!
-                POSTGRES_USER: ${POSTGRES_USER:-projeto}
-                POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-projeto}
-            ports:
-                - 5432:5432 #(2)!
-    ```
-
-    1.  Caso a variável de ambiente `POSTGRES_DB` não exista ou seja nula - não seja definida no arquivo `.env` - o valor padrão será `projeto`. Vide [documentação](https://docs.docker.com/reference/compose-file/interpolation/){target='_blank'}.
-
-    2. Aqui é feito um túnel da porta 5432 do container do banco de dados para a porta 5432 do host (no caso localhost). Em um ambiente de produção, essa porta não deve ser exposta, pois ninguém de fora do compose deveria acessar o banco de dados diretamente.
-
-
-## Exemplo de vídeo
-
-Lorem ipsum dolor sit amet
-
-<iframe width="100%" height="470" src="https://www.youtube.com/embed/3574AYQml8w" allowfullscreen></iframe>
-
-
-## Referências
-
-[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/reference/){:target='_blank'}
+Source for this repository is on [GitHub](https://github.com/luigilopesz/Artificial-Neural-Networks-and-Deep-Learning){:target="_blank"}.
