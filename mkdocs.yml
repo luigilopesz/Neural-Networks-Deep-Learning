@@ -130,6 +130,7 @@ plugins:
       allow_errors: false
       ignore:
         - "*/exercises/data/code/*.py"
+        - "*/exercises/perceptron/code/*.py"
 
 extra_javascript:
   - https://unpkg.com/mathjax/es5/tex-mml-chtml.js
@@ -151,4 +152,5 @@ nav:
     - Roteiro 4: ./roteiro4/index.md
   - Exercises:
     - Data: ./exercises/data/index.md
+    - Perceptron: ./exercises/perceptron/index.md
   - Projeto: ./projeto/index.md
