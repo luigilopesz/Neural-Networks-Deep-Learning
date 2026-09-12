@@ -1,0 +1,73 @@
+{
+  "fetched_at": "2026-09-12T23:42:29+00:00",
+  "pages": {
+    "insper-2026.2/index.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/",
+      "status": "ok",
+      "bytes": 18876
+    },
+    "insper-2026.2/exercises/data.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/exercises/data/",
+      "status": "ok",
+      "bytes": 22929
+    },
+    "insper-2026.2/exercises/perceptron.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/exercises/perceptron/",
+      "status": "ok",
+      "bytes": 18779
+    },
+    "insper-2026.2/exercises/mlp.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/exercises/mlp/",
+      "status": "ok",
+      "bytes": 26981
+    },
+    "insper-2026.2/exercises/vae.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/exercises/vae/",
+      "status": "HTTP Error 404: Not Found"
+    },
+    "insper-2026.2/exercises/submission.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/exercises/submission/",
+      "status": "ok",
+      "bytes": 9973
+    },
+    "insper-2025.2/projects/eda.html": {
+      "url": "https://insper.github.io/ann-dl/2025.2/projects/eda/",
+      "status": "HTTP Error 404: Not Found"
+    },
+    "insper-2025.2/projects/classification.html": {
+      "url": "https://insper.github.io/ann-dl/2025.2/projects/classification/",
+      "status": "ok",
+      "bytes": 12758
+    },
+    "insper-2025.2/projects/regression.html": {
+      "url": "https://insper.github.io/ann-dl/2025.2/projects/regression/",
+      "status": "ok",
+      "bytes": 12680
+    },
+    "insper-2025.2/projects/generative.html": {
+      "url": "https://insper.github.io/ann-dl/2025.2/projects/generative/",
+      "status": "ok",
+      "bytes": 5406
+    },
+    "template/index.html": {
+      "url": "https://repo-classes.github.io/ann-dl/",
+      "status": "ok",
+      "bytes": 8203
+    },
+    "template/template.html": {
+      "url": "https://repo-classes.github.io/ann-dl/template/",
+      "status": "ok",
+      "bytes": 35690
+    },
+    "template/exercises/data.html": {
+      "url": "https://repo-classes.github.io/ann-dl/exercises/data/",
+      "status": "ok",
+      "bytes": 30958
+    },
+    "template/projects/eda.html": {
+      "url": "https://repo-classes.github.io/ann-dl/projects/eda/",
+      "status": "ok",
+      "bytes": 8304
+    }
+  }
+}
