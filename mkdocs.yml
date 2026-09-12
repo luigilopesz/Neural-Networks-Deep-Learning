@@ -137,10 +137,23 @@ extra_javascript:
   # - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://fastly.jsdelivr.net/npm/jquery/dist/jquery.min.js
-  - https://fastly.jsdelivr.net/npm/echarts/dist/echarts.min.js
+  # Pinned: the figures in exercises/data are built against this major version.
+  - https://fastly.jsdelivr.net/npm/echarts@6.1.0/dist/echarts.min.js
 
   # Para a implementação do mkdocs-jupyter
   - javascripts/mathjax.js
+
+  # Figuras interativas (ECharts)
+  - javascripts/charts.js
+  - javascripts/charts/fig1.js
+  - javascripts/charts/fig2.js
+  - javascripts/charts/fig3.js
+  - javascripts/charts/fig4.js
+  - javascripts/charts/fig5.js
+  - javascripts/charts/fig6.js
+
+extra_css:
+  - stylesheets/charts.css
 
 nav:
   - Home: index.md
