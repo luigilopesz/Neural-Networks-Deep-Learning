@@ -174,4 +174,4 @@ nav:
     - Data: ./exercises/data/index.md
     - Perceptron: ./exercises/perceptron/index.md
     - MLP: ./exercises/mlp/index.md
-  - Projeto: ./projeto/index.md
+  - Projects: ./projects/index.md
