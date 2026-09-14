@@ -41,6 +41,8 @@ Each exercise and project phase in the navigation follows the same shape: a stat
 !!! tip "Where to go next"
 
     - **Exercises** — the coursework notebooks, where the datasets, models, and results actually live. Data comes first, because a network's output depends on how the data it sees was generated or prepared: its geometry, whether a linear model can separate the classes at all, and how a preprocessing pipeline can leak information from a held-out split, all constrain what any model trained on it can subsequently learn. Perceptron and MLP follow, building the models themselves from scratch.
-    - **Projects** — the semester-long project, applied to a real dataset phase by phase.
+    - **Projects** — the semester-long project, applied to one dataset phase by phase. That
+      dataset is synthetic, not a record of real floods; each phase says so and draws no
+      real-world conclusions from it.
 
 Source for this repository is on [GitHub](https://github.com/luigilopesz/Neural-Networks-Deep-Learning){:target="_blank"}.
