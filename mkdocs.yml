@@ -136,10 +136,12 @@ plugins:
       ignore:
         - "*/exercises/data/code/*.py"
         - "*/exercises/perceptron/code/*.py"
+        - "*/exercises/mlp/code/*.py"
+        - "*/projects/*/code/*.py"
 
 extra_javascript:
-  - https://unpkg.com/mathjax/es5/tex-mml-chtml.js
   # - https://polyfill.io/v3/polyfill.min.js?features=es6
+  # One MathJax only (v3, matching javascripts/mathjax.js); a second unpinned copy used to load v4 alongside it
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://fastly.jsdelivr.net/npm/jquery/dist/jquery.min.js
   # Pinned: the figures in exercises/data are built against this major version.
@@ -171,4 +173,5 @@ nav:
   - Exercises:
     - Data: ./exercises/data/index.md
     - Perceptron: ./exercises/perceptron/index.md
+    - MLP: ./exercises/mlp/index.md
   - Projeto: ./projeto/index.md
