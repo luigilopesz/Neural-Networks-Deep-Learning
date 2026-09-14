@@ -164,12 +164,6 @@ extra_css:
 
 nav:
   - Home: index.md
-  - This documentation: ./thisdocumentation/index.md
-  - Roteiros:
-    - Roteiro 1: ./roteiro1/index.md
-    - Roteiro 2: ./roteiro2/index.md
-    - Roteiro 3: ./roteiro3/index.md
-    - Roteiro 4: ./roteiro4/index.md
   - Exercises:
     - Data: ./exercises/data/index.md
     - Perceptron: ./exercises/perceptron/index.md
