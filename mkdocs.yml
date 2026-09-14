@@ -104,6 +104,11 @@ markdown_extensions:
   - pymdownx.blocks.caption
   - tables
       
+# Local-only datasets: never copied into the built site
+exclude_docs: |
+  projects/data/
+  exercises/data/code/data/
+
 plugins:
   - glightbox
   - git-revision-date-localized:
