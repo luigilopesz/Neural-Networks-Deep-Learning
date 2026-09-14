@@ -1,4 +1,4 @@
-This site is the coursework repository for **Artificial Neural Networks and Deep Learning**, maintained by Luigi Lopes ([@luigilopesz](https://github.com/luigilopesz){:target="_blank"}). It works as a lab notebook: a short primer on the field below, followed by the roteiros and exercises worked through as the course progresses.
+This site is the coursework repository for **Artificial Neural Networks and Deep Learning**, maintained by Luigi Lopes ([@luigilopesz](https://github.com/luigilopesz){:target="_blank"}). It works as a lab notebook: a short primer on the field below, followed by the exercises and project worked through as the course progresses.
 
 ## What a Neural Network Actually Is
 
@@ -36,11 +36,11 @@ The result is a tool that is now the default choice whenever a mapping from inpu
 
 ## About This Repository
 
-Each roteiro and exercise in the navigation follows the same shape: a stated goal, the steps or dataset involved, the executed code, and a discussion of what the results show.
+Each exercise and project phase in the navigation follows the same shape: a stated goal, the steps or dataset involved, the executed code, and a discussion of what the results show.
 
 !!! tip "Where to go next"
 
-    - **Roteiros** — the guided lab worksheets for the course, one per assignment.
-    - **Exercises** — the coursework notebooks, where the datasets, models, and results actually live. Exercise Set 1 (Data) comes first, because a network's output depends on how the data it sees was generated or prepared: its geometry, whether a linear model can separate the classes at all, and how a preprocessing pipeline can leak information from a held-out split, all constrain what any model trained on it can subsequently learn.
+    - **Exercises** — the coursework notebooks, where the datasets, models, and results actually live. Data comes first, because a network's output depends on how the data it sees was generated or prepared: its geometry, whether a linear model can separate the classes at all, and how a preprocessing pipeline can leak information from a held-out split, all constrain what any model trained on it can subsequently learn. Perceptron and MLP follow, building the models themselves from scratch.
+    - **Projects** — the semester-long project, applied to a real dataset phase by phase.
 
-Source for this repository is on [GitHub](https://github.com/luigilopesz/Artificial-Neural-Networks-and-Deep-Learning){:target="_blank"}.
+Source for this repository is on [GitHub](https://github.com/luigilopesz/Neural-Networks-Deep-Learning){:target="_blank"}.
