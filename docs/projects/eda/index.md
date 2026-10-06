@@ -23,13 +23,6 @@ ready for modelling. **No model is trained here.**
 The question is asked at 456,550 station-days: given everything a river monitoring station has recorded
 up to and including day *t*, will it report a flood on day *t+1*?
 
-!!! warning "This dataset is synthetic"
-    The dataset's own README says it was *generated* (2026-07-23). Its internal structure is
-    machine-regular, some station names contradict their coordinates, and — as stage 3 shows —
-    floods occur *only* inside the monsoon flag. Every method in this report is a real method
-    applied honestly; the numbers describe a simulator, not Asia. **Nothing here is a claim
-    about actual flood risk.**
-
 ## 0. Proposal
 
 | | |
