@@ -14,6 +14,8 @@ ai_use: "AI-assisted: analysis scripts and report drafts produced with an AI cod
 **Project:** ASIA-FLOOD 25-Year Flood Risk Atlas · **Task:** binary classification ·
 **Target:** `flood_event_occurred` on day *t+1*, for the same station
 
+**Team:** Luigi Lopes · Lucas Abatepietro · Marcelo Alonso
+
 This is the first deliverable of the classification project: an exploratory analysis of the
 dataset that will be used until the end of the semester, ending in a preprocessing pipeline
 ready for modelling. **No model is trained here.**
