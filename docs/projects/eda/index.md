@@ -4,6 +4,8 @@ task: classification
 dataset: https://www.kaggle.com/datasets/aliahmadmphil/asia-flood-25-year-flood-risk-atlas
 team:
   - Luigi Lopes
+  - Lucas Abatepietro
+  - Marcelo Alonso
 ai_use: "AI-assisted: analysis scripts and report drafts produced with an AI coding agent; every number re-derived from the script output and reviewed by the team"
 ---
 

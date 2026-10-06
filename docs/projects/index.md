@@ -6,6 +6,8 @@ to today, will it report a flood tomorrow?
 ## Team
 
 - Luigi Lopes
+- Lucas Abatepietro
+- Marcelo Alonso
 
 ## The dataset
 
