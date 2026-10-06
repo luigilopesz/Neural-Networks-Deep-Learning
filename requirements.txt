@@ -16,5 +16,6 @@ numpy
 pandas
 scikit-learn
 seaborn
+umap-learn
 kagglehub
 

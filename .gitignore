@@ -9,3 +9,8 @@ __pycache__/
 docs/exercises/data/code/data/
 # Project dataset (Kaggle, downloaded locally) must not be redistributed
 docs/projects/data/
+
+# EDA authoring + QA intermediates: the deliverable is index.md, which already
+# contains the concatenated sections. Neither is published by mkdocs.
+docs/projects/eda/sections/
+docs/projects/eda/verification/

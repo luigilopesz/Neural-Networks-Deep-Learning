@@ -107,12 +107,18 @@ markdown_extensions:
 # Local-only datasets: never copied into the built site
 exclude_docs: |
   projects/data/
+  projects/eda/sections/
+  projects/eda/verification/
   exercises/data/code/data/
+  **/__pycache__/
 
 plugins:
   - glightbox
   - git-revision-date-localized:
       enable_creation_date: true
+      # Serial git calls instead of a multiprocessing.Pool. Same output, and it is the only
+      # way `mkdocs build` works in a sandbox that forbids named pipes (WinError 5).
+      enable_parallel_processing: false
   - git-authors
   - git-committers:
       repository: luigilopesz/Neural-Networks-Deep-Learning
@@ -168,4 +174,6 @@ nav:
     - Data: ./exercises/data/index.md
     - Perceptron: ./exercises/perceptron/index.md
     - MLP: ./exercises/mlp/index.md
-  - Projects: ./projects/index.md
+  - Projects:
+    - Overview: ./projects/index.md
+    - EDA: ./projects/eda/index.md
