@@ -1,5 +1,6 @@
 site_name: Artificial Neural Networks & Deep Learning
 site_author: Luigi Lopes
+site_description: Coursework for Artificial Neural Networks & Deep Learning (Insper) - exercises and the ASIA-FLOOD next-day flood project.
 site_url: https://luigilopesz.github.io/Neural-Networks-Deep-Learning
 repo_url: https://github.com/luigilopesz/Neural-Networks-Deep-Learning
 repo_name: luigilopesz/Neural-Networks-Deep-Learning
@@ -7,35 +8,23 @@ repo_name: luigilopesz/Neural-Networks-Deep-Learning
 theme:
   name: material
   palette:
-    # primary: grey
-    # Light mode
-    - scheme: default
-      primary: grey
-      toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-
-    # Palette toggle for automatic mode
+    # System preference (default), then light, then dark; the toggle cycles in this order.
     - media: "(prefers-color-scheme)"
       primary: grey
       toggle:
-        icon: material/toggle-switch
+        icon: material/brightness-auto
         name: Switch to light mode
-
-    # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
-      scheme: default 
+      scheme: default
+      primary: grey
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
       primary: grey
       toggle:
         icon: material/toggle-switch-off-outline
-        name: Switch to dark mode
-
-    # Palette toggle for dark mode
-    - media: "(prefers-color-scheme: dark)"
-      primary: grey
-      scheme: slate
-      toggle:
-        icon: material/toggle-switch
         name: Switch to system preference
   features:
     - content.code.copy
@@ -48,6 +37,12 @@ theme:
     - navigation.path
     - navigation.tracking
     - navigation.expand
+    - navigation.tabs
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - search.share
   icon:
     # logo: assets/images/devops
     admonition:
@@ -103,7 +98,16 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.blocks.caption
   - tables
-      
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+validation:
+  omitted_files: info
+  absolute_links: warn
+  unrecognized_links: warn
+  anchors: warn
+
 # Local-only datasets: never copied into the built site
 exclude_docs: |
   projects/data/
@@ -111,6 +115,12 @@ exclude_docs: |
   projects/eda/verification/
   exercises/data/code/data/
   **/__pycache__/
+  # unfilled course templates, not part of the delivery (re-add to `nav` and remove here when assigned)
+  roteiro1/
+  roteiro2/
+  roteiro3/
+  roteiro4/
+  thisdocumentation/
 
 plugins:
   - glightbox
@@ -121,6 +131,7 @@ plugins:
       enable_parallel_processing: false
   - git-authors
   - git-committers:
+      enabled: !ENV [CI, false]
       repository: luigilopesz/Neural-Networks-Deep-Learning
       branch: main
   - search

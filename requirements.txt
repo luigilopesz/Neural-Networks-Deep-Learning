@@ -18,4 +18,4 @@ scikit-learn
 seaborn
 umap-learn
 kagglehub
-
+scipy

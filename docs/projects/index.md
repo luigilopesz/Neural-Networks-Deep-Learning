@@ -18,7 +18,7 @@ Three tables:
 |---|---|---|
 | `station_daily_data_full.csv` | 456,600 | one row per station per day: 50 stations × 9,132 days, 2000-01-01 to 2024-12-31 |
 | `vulnerability_data.csv` | 10 | one row per river basin: area, population, poverty rate, hospitals, resilience scores |
-| `asia_flood_geospatial.geojson` | 50 | station coordinates and basin polygons |
+| `asia_flood_geospatial.geojson` | 10 | one `Polygon` per river basin, with area, population, risk and vulnerability labels (station coordinates live in the daily table, as `latitude`/`longitude`) |
 
 The daily table has 4 measured variables (`rainfall_mm`, `river_level_m`, `soil_moisture_percent`,
 `temperature_celsius`), calendar fields (`date`, `season`, `monsoon_season`, `day_of_year`),
@@ -51,7 +51,7 @@ These numbers shape every decision that follows. They come from
   and exactly 0 % otherwise. A rule that says "never outside the monsoon" is therefore a
   baseline every model has to beat *inside* the monsoon, where the actual problem lives.
 - **Floods are isolated days, not episodes.** P(flood tomorrow | flood today) = 7.6 %, against
-  a 2.05 % base rate. Yesterday's label helps a little; it will not carry a model.
+  a 2.17 % base rate. Yesterday's label helps a little; it will not carry a model.
 - **Today's measurements carry real signal for tomorrow.** Used alone, each gives ROC-AUC for
   the next-day event of: soil moisture 0.836, rainfall 0.809, temperature 0.796, river level
   0.795. The modelling bet is that windows over the past days (accumulated rain, rising river)
