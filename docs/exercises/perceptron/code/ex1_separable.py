@@ -3,10 +3,11 @@
 Two 2D Gaussian classes, 1000 points each (2000 total), with means far apart
 (‖mu1-mu0‖ ≈ 4.95) relative to their spread (std ≈ 0.707/axis) -- practically
 linearly separable. Imports the single shared `Perceptron` from perceptron.py
-(unchanged, no pocket) and trains it twice on the identical data: once at the
-spec's standard eta=0.01 (Part C), once at eta=1.0 with nothing else changed
-(Part D.2), to see how the learning rate does -- and does not -- affect the
-outcome on data this easy.
+(the same class, called the same way, as in Exercise 2) and trains it twice on
+the identical data: once at the spec's standard eta=0.01 (Part C), once at
+eta=1.0 with nothing else changed (Part D.2), to see how the learning rate does
+-- and does not -- affect the outcome on data this easy. Part D.1 also needs the
+number of updates in every epoch (`model.updates`) and an order check (below).
 
 Run standalone:
     python ex1_separable.py
@@ -15,7 +16,9 @@ from this file's own directory. Figures are written to ../figures/.
 Reproducibility: a single rng = np.random.default_rng(42) is created once and
 consumed in exactly this order -- Class 0 draw, Class 1 draw (Part A), then
 the eta=0.01 weight init + training (Part C), then the eta=1.0 weight init +
-training (Part D.2). Nothing else in the script draws from rng.
+training (Part D.2). Only after every reported number come 8 more (permutation,
+weight init, training) triples for the order check in Part D.1. Nothing else in
+the script draws from rng.
 """
 
 from pathlib import Path
@@ -87,6 +90,32 @@ w_hi_dir = w_hi / np.linalg.norm(w_hi)
 cos_sim = float(np.dot(w_dir, w_hi_dir))
 
 # ---------------------------------------------------------------------------
+# Part D.1 -- updates per epoch, and what the block layout of the data does to them
+# ---------------------------------------------------------------------------
+
+# Gap between the classes along the line joining the means (> 0 proves separability).
+axis = (np.array(MEAN_1) - np.array(MEAN_0)) / np.linalg.norm(np.array(MEAN_1) - np.array(MEAN_0))
+proj = X @ axis
+gap = float(proj[y == 1].min() - proj[y == 0].max())
+
+# The biggest change in accuracy made by ONE update (consecutive updates share their weights).
+acc_after = np.array([u.acc for u in model.log])  # accuracy right after each update
+k = int(np.abs(np.diff(acc_after)).argmax()) + 1
+swing_epoch, swing_sample, swing_to = model.log[k].epoch, model.log[k].sample, model.log[k].acc
+swing_from = float(acc_after[k - 1])
+
+# Where in the epoch the updates fall: sample index within its class block (< 100 = block start).
+upd_pos = np.array([u.sample for u in model.log]) % N_PER_CLASS
+n_block_start = int((upd_pos < 100).sum())
+
+# Order check -- run AFTER every reported number, so it cannot change any of them:
+# the same 2000 points and eta=0.01, presented in shuffled order, fresh init, 8 times.
+shuffled = []
+for _ in range(8):
+    perm = rng.permutation(len(X))
+    shuffled.append(Perceptron(eta=0.01, max_epochs=100).fit(X[perm], y[perm], rng))
+
+# ---------------------------------------------------------------------------
 # Sanity checks -- fail loudly if the reproducible pipeline breaks
 # ---------------------------------------------------------------------------
 
@@ -95,6 +124,11 @@ assert np.bincount(y).tolist() == [1000, 1000]
 assert model.converged, "separable data is expected to converge well under 100 epochs"
 assert final_acc > 0.99, "near-100% accuracy expected on this well-separated data"
 assert cos_sim > 0.99, "eta should not change the converged direction of w on separable data"
+assert gap > 0, "the classes must be separable along the line joining the means"
+assert model.pocket_acc == 1.0 and np.array_equal(model.pocket_w, model.w) and model.pocket_b == model.b, (
+    "on separable data the pocket ends equal to the final weights (the last update reaches 100%)"
+)
+assert all(m.converged for m in shuffled)
 
 # ---------------------------------------------------------------------------
 # Printed report -- every number the write-up needs also appears here
@@ -109,12 +143,34 @@ print(f"final w = [{w[0]:.4f}, {w[1]:.4f}]")
 print(f"final b = {b:.4f}")
 print(f"epochs run = {model.n_epochs} (converged={model.converged})")
 print(f"final accuracy = {final_acc:.4f} ({int(misclassified.sum())}/2000 misclassified)")
+print(f"pocket (best after any update): epoch {model.pocket_epoch}, accuracy {model.pocket_acc:.4f}, "
+      f"identical to the final weights = {np.array_equal(model.pocket_w, model.w)}")
+
+print("\n=== Part D.1: updates per epoch (eta=0.01) ===")
+print(f"updates per epoch = {model.updates}")
+print(f"total updates = {sum(model.updates)}, epochs = {model.n_epochs}, "
+      f"epochs with updates = {sum(1 for u in model.updates if u)}")
+print(f"accuracy at the end of each epoch = {[round(a, 3) for a in model.history]}")
+print(f"epoch 1: {model.updates[0]} updates, end-of-epoch accuracy {model.history[0]:.4f} "
+      f"({round((1 - model.history[0]) * 2000)}/2000 misclassified)")
+print(f"largest accuracy change made by a single update: {swing_from:.4f} -> {swing_to:.4f} "
+      f"(epoch {swing_epoch}, sample {swing_sample})")
+print(f"updates within the first 100 samples of their class block: {n_block_start} of {len(upd_pos)}")
+print(f"gap between the classes along the line joining the means = {gap:.4f} "
+      f"({gap / np.sqrt(COV_0[0][0]):.2f} sigma)")
+print("same data, shuffled order, 8 repetitions (fresh init each):")
+print(f"   epochs = {[m.n_epochs for m in shuffled]}  (min {min(m.n_epochs for m in shuffled)}, "
+      f"max {max(m.n_epochs for m in shuffled)})")
+print(f"   total updates = {[sum(m.updates) for m in shuffled]}  (min {min(sum(m.updates) for m in shuffled)}, "
+      f"max {max(sum(m.updates) for m in shuffled)})")
+print(f"   updates in epoch 1 = {[m.updates[0] for m in shuffled]}")
 
 print("\n=== Part D.2: re-training at eta=1.0 ===")
 print(f"final w = [{w_hi[0]:.4f}, {w_hi[1]:.4f}]")
 print(f"final b = {b_hi:.4f}")
 print(f"epochs run = {model_hi.n_epochs} (converged={model_hi.converged})")
 print(f"final accuracy = {final_acc_hi:.4f}")
+print(f"updates per epoch = {model_hi.updates}, total = {sum(model_hi.updates)}")
 print(f"w/||w|| at eta=0.01 = [{w_dir[0]:.4f}, {w_dir[1]:.4f}]")
 print(f"w/||w|| at eta=1.0  = [{w_hi_dir[0]:.4f}, {w_hi_dir[1]:.4f}]")
 print(f"cosine similarity between directions = {cos_sim:.6f}")
