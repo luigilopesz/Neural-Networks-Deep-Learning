@@ -14,3 +14,6 @@ docs/projects/data/
 # contains the concatenated sections. Neither is published by mkdocs.
 docs/projects/eda/sections/
 docs/projects/eda/verification/
+
+# VAE exercise: MNIST download cache (re-created by the scripts)
+docs/exercises/vae/code/data/

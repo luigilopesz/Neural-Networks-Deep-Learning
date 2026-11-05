@@ -7,24 +7,30 @@ repo_name: luigilopesz/Neural-Networks-Deep-Learning
 
 theme:
   name: material
+  # Sans for the interface, headings and tables; the serif used for running text
+  # is loaded in extra_css below and applied in stylesheets/site.css.
+  font:
+    text: Schibsted Grotesk
+    code: JetBrains Mono
+  # Colours are defined in stylesheets/site.css (one accent, light and dark).
   palette:
-    # System preference (default), then light, then dark; the toggle cycles in this order.
     - media: "(prefers-color-scheme)"
-      primary: grey
       toggle:
         icon: material/brightness-auto
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: grey
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/toggle-switch
+        icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: grey
+      primary: custom
+      accent: custom
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/brightness-4
         name: Switch to system preference
   features:
     - content.code.copy
@@ -37,25 +43,25 @@ theme:
     - navigation.path
     - navigation.tracking
     - navigation.expand
-    - navigation.tabs
+    - navigation.sections
     - navigation.footer
     - toc.follow
-    - search.suggest
     - search.highlight
+    - search.suggest
     - search.share
   icon:
-    # logo: assets/images/devops
+    logo: material/graph-outline
     admonition:
       note: fontawesome/solid/note-sticky
       abstract: fontawesome/solid/book
       info: fontawesome/solid/circle-info
-      tip: fontawesome/solid/bullhorn
+      tip: fontawesome/solid/lightbulb
       success: fontawesome/solid/check
       question: fontawesome/solid/circle-question
       warning: fontawesome/solid/triangle-exclamation
-      failure: fontawesome/solid/bomb
-      danger: fontawesome/solid/skull
-      bug: fontawesome/solid/robot
+      failure: fontawesome/solid/circle-xmark
+      danger: fontawesome/solid/circle-exclamation
+      bug: fontawesome/solid/bug
       example: fontawesome/solid/flask
       quote: fontawesome/solid/quote-left
 
@@ -114,6 +120,7 @@ exclude_docs: |
   projects/eda/sections/
   projects/eda/verification/
   exercises/data/code/data/
+  exercises/vae/code/data/
   **/__pycache__/
   # unfilled course templates, not part of the delivery (re-add to `nav` and remove here when assigned)
   roteiro1/
@@ -129,7 +136,9 @@ plugins:
       # Serial git calls instead of a multiprocessing.Pool. Same output, and it is the only
       # way `mkdocs build` works in a sandbox that forbids named pipes (WinError 5).
       enable_parallel_processing: false
-  - git-authors
+  - git-authors:
+      ignore_authors:
+        - noreply@anthropic.com
   - git-committers:
       enabled: !ENV [CI, false]
       repository: luigilopesz/Neural-Networks-Deep-Learning
@@ -154,6 +163,7 @@ plugins:
         - "*/exercises/data/code/*.py"
         - "*/exercises/perceptron/code/*.py"
         - "*/exercises/mlp/code/*.py"
+        - "*/exercises/vae/code/*.py"
         - "*/projects/*/code/*.py"
 
 extra_javascript:
@@ -177,14 +187,18 @@ extra_javascript:
   - javascripts/charts/fig6.js
 
 extra_css:
+  # Running-text serif (the sans and mono come from theme.font). Variable optical-size axis.
+  - "https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap"
   - stylesheets/charts.css
+  - stylesheets/site.css
 
 nav:
-  - Home: index.md
+  - Overview: index.md
   - Exercises:
     - Data: ./exercises/data/index.md
     - Perceptron: ./exercises/perceptron/index.md
     - MLP: ./exercises/mlp/index.md
+    - VAE: ./exercises/vae/index.md
   - Projects:
-    - Overview: ./projects/index.md
+    - Project brief: ./projects/index.md
     - EDA: ./projects/eda/index.md
