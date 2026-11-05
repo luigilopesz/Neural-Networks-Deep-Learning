@@ -179,6 +179,11 @@ print("\n=== Part B.3: nearest-class-center mixing rate per scale ===")
 for s in SCALES:
     n_wrong = int(round(mixing_rates[s] * N_CLASSES * N_PER_CLASS))
     print(f"s={s}: mixing rate = {mixing_rates[s]:.4f} ({n_wrong}/400 points)")
+# Figure 1 is the item-A draw, a different 400 points from the s = 1.0 dataset of
+# item B (the stream continues, no re-seed), so its own rate differs slightly.
+# Measured last: no further rng draw depends on it.
+rate_fig1 = nearest_center_mixing_rate(X1, y1, CLASS_MEANS)
+print(f"Figure 1 draw (item A): mixing rate = {rate_fig1:.4f} ({int(round(rate_fig1 * 400))}/400 points)")
 
 # ---------------------------------------------------------------------------
 # Figure 1 -- original clouds (s = 1.0), means marked, decision boundary sketch

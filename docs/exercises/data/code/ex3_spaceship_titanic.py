@@ -6,6 +6,12 @@ Standalone script version of the preprocessing pipeline: load the Kaggle
 impute / engineer / encode / transform / scale it for a tanh-activated
 network, and save Figure 6 (FoodCourt before vs. after log1p).
 
+Input: data/train.csv next to this file. It is Kaggle's own file, which the
+competition rules forbid redistributing, so it is git-ignored and NOT in the
+repository: download train.csv from
+https://www.kaggle.com/competitions/spaceship-titanic/data and save it as
+<this folder>/data/train.csv before running (load_data() says so if it is missing).
+
 Run from this file's own directory:
     python ex3_spaceship_titanic.py
 Figure is written to ../figures/fig6.png (created if missing).
@@ -41,19 +47,15 @@ AFTER_COLOR = "#eb6834"
 
 
 def load_data() -> pd.DataFrame:
-    """Primary path: kagglehub competition download. Fallback: local CSV."""
-    try:
-        import kagglehub
-
-        comp_dir = Path(kagglehub.competition_download("spaceship-titanic"))
-        train_path = comp_dir / "train.csv"
-        df = pd.read_csv(train_path)
-        print(f"[data] loaded via kagglehub: {train_path}")
-        return df
-    except Exception as exc:  # no credentials / no network / package missing
-        fallback = SCRIPT_DIR / "data" / "train.csv"
-        print(f"[data] kagglehub unavailable ({exc}); falling back to {fallback}")
-        return pd.read_csv(fallback)
+    """Read Kaggle's train.csv from code/data/ (git-ignored, see module docstring)."""
+    path = SCRIPT_DIR / "data" / "train.csv"
+    if not path.exists():
+        raise FileNotFoundError(
+            f"{path} not found. Download train.csv from "
+            "https://www.kaggle.com/competitions/spaceship-titanic/data and save it at "
+            "that path (Kaggle's rules forbid redistributing the file, so it is not committed)."
+        )
+    return pd.read_csv(path)
 
 
 def part_a(df: pd.DataFrame) -> None:
@@ -74,8 +76,9 @@ def part_a(df: pd.DataFrame) -> None:
 
     missing = df.isna().sum().to_frame("missing_count")
     missing["missing_pct"] = (missing["missing_count"] / len(df) * 100).round(2)
-    missing = missing[missing["missing_count"] > 0].sort_values("missing_count", ascending=False)
-    print("\nMissing values per column:")
+    # Every column is listed, including the two with zero missing values.
+    missing = missing.sort_values("missing_count", ascending=False, kind="stable")
+    print(f"\nMissing values per column (all {len(missing)} columns):")
     print(missing.to_string())
 
     print("\nSpending columns - mean / median / max (full dataset):")
@@ -84,6 +87,19 @@ def part_a(df: pd.DataFrame) -> None:
     for col in SPEND_COLS:
         m, med = spend_stats.loc[col, "mean"], spend_stats.loc[col, "median"]
         print(f"  {col}: mean={m:.2f} >> median={med:.2f} -> heavy right skew (most passengers spend 0)")
+
+    # Spread, made explicit: std next to the mean, skewness, and the share of
+    # exact zeros among the non-missing values (the median is 0 because of them).
+    spread = pd.DataFrame(
+        {
+            "std": df[SPEND_COLS].std(),
+            "std/mean": df[SPEND_COLS].std() / df[SPEND_COLS].mean(),
+            "skew": df[SPEND_COLS].skew(),
+            "pct_zero": df[SPEND_COLS].eq(0).sum() / df[SPEND_COLS].notna().sum() * 100,
+        }
+    )
+    print("\nSpending columns - spread (full dataset, NaN skipped):")
+    print(spread.round(2).to_string())
 
 
 def part_b(df: pd.DataFrame):
@@ -113,6 +129,14 @@ def part_c(train_df: pd.DataFrame, test_df: pd.DataFrame):
     y_train = train_df.pop("Transported")
     y_test = test_df.pop("Transported")
 
+    # Raw FoodCourt on the training split, NaNs skipped: the literal "before
+    # transforming" value asked for by Results summary row 11.
+    fc_raw = train_df["FoodCourt"]
+    print(
+        f"FoodCourt (train, raw, {fc_raw.isna().sum()} NaN skipped, n={fc_raw.notna().sum()}): "
+        f"mean={fc_raw.mean():.2f}, median={fc_raw.median():.2f}"
+    )
+
     # --- C1: impute (numeric -> train median, categorical -> train mode) ---
     num_imputer = SimpleImputer(strategy="median")
     train_df[NUMERIC_COLS] = num_imputer.fit_transform(train_df[NUMERIC_COLS])
@@ -132,7 +156,10 @@ def part_c(train_df: pd.DataFrame, test_df: pd.DataFrame):
 
     foodcourt_before = train_df["FoodCourt"].copy()
     fc_mean, fc_median = foodcourt_before.mean(), foodcourt_before.median()
-    print(f"FoodCourt (train, post-impute, pre-log1p): mean={fc_mean:.2f}, median={fc_median:.2f}")
+    print(
+        f"FoodCourt (train, after median imputation, n={len(foodcourt_before)}, pre-log1p): "
+        f"mean={fc_mean:.2f}, median={fc_median:.2f}"
+    )
 
     # --- C2: one-hot encode categoricals. handle_unknown="ignore" means any
     # category value seen only in test (never in train) is encoded as an
@@ -158,6 +185,30 @@ def part_c(train_df: pd.DataFrame, test_df: pd.DataFrame):
     test_df[log_cols] = np.log1p(test_df[log_cols])
     foodcourt_after = train_df["FoodCourt"].copy()
 
+    # What log1p does to FoodCourt (train, imputed): the tail is pulled in, but
+    # the exact zeros stay a spike at 0 because log1p(0) = 0.
+    spenders = foodcourt_after[foodcourt_after > 0]
+    print(
+        f"FoodCourt log1p (train, imputed): max {foodcourt_before.max():.0f} -> {foodcourt_after.max():.2f}; "
+        f"skew {foodcourt_before.skew():.2f} -> {foodcourt_after.skew():.2f}"
+    )
+    print(
+        f"  exact zeros stay at 0: {(foodcourt_after == 0).mean():.2%} of rows; "
+        f"non-zero part: n={len(spenders)} ({len(spenders) / len(foodcourt_after):.2%}), "
+        f"skew={spenders.skew():.2f}"
+    )
+
+    # Why log1p helps a tanh network: min-max scale FoodCourt to [-1, 1] without
+    # and with log1p (throwaway scalers, fit on train only, not used downstream).
+    for name, col in [("raw", foodcourt_before), ("log1p", foodcourt_after)]:
+        z = MinMaxScaler(feature_range=(-1, 1)).fit_transform(col.to_frame()).ravel()
+        squeezed = int(((z < -0.9) & (col > 0)).sum())
+        print(
+            f"  FoodCourt min-max to [-1, 1], {name:5s}: share of rows below -0.9 = {(z < -0.9).mean():.2%}, "
+            f"std = {z.std():.4f}, spenders below -0.9 = {squeezed}/{len(spenders)} "
+            f"({squeezed / len(spenders):.1%})"
+        )
+
     # --- C5: scale numeric columns to [-1, 1], fit on train only ---
     numeric_all = NUMERIC_COLS + ["TotalSpend"]
     scaler = MinMaxScaler(feature_range=(-1, 1))
@@ -167,6 +218,8 @@ def part_c(train_df: pd.DataFrame, test_df: pd.DataFrame):
     train_min, train_max = train_df[numeric_all].to_numpy().min(), train_df[numeric_all].to_numpy().max()
     test_min, test_max = test_df[numeric_all].to_numpy().min(), test_df[numeric_all].to_numpy().max()
     print(f"Post-scaling range - train: [{train_min:.2f}, {train_max:.2f}], test: [{test_min:.2f}, {test_max:.2f}]")
+    print("Per-column min / max after scaling (test split; train is exactly [-1, 1] per column):")
+    print(test_df[numeric_all].agg(["min", "max"]).T.round(3).to_string())
 
     X_train = pd.concat([train_df[numeric_all].reset_index(drop=True), train_cat.reset_index(drop=True)], axis=1)
     X_test = pd.concat([test_df[numeric_all].reset_index(drop=True), test_cat.reset_index(drop=True)], axis=1)
@@ -213,6 +266,8 @@ def part_d(X_train, y_train, X_test, y_test, foodcourt_before, foodcourt_after):
 
     lo, hi = X_train.to_numpy().min(), X_train.to_numpy().max()
     print(f"Final train value range: [{lo:.2f}, {hi:.2f}] -> within/near tanh's [-1, 1] output range")
+    lo_t, hi_t = X_test.to_numpy().min(), X_test.to_numpy().max()
+    print(f"Final test value range: [{lo_t:.2f}, {hi_t:.2f}] (overshoot above 1: {hi_t - 1:.3f}; tanh({hi_t:.3f}) = {np.tanh(hi_t):.2f})")
 
 
 def main():
