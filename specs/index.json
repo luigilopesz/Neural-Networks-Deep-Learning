@@ -1,34 +1,35 @@
 {
-  "fetched_at": "2026-09-12T23:42:29+00:00",
+  "fetched_at": "2026-11-05T22:16:14+00:00",
   "pages": {
     "insper-2026.2/index.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/",
       "status": "ok",
-      "bytes": 18876
+      "bytes": 20527
     },
     "insper-2026.2/exercises/data.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/exercises/data/",
       "status": "ok",
-      "bytes": 22929
+      "bytes": 22946
     },
     "insper-2026.2/exercises/perceptron.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/exercises/perceptron/",
       "status": "ok",
-      "bytes": 18779
+      "bytes": 18795
     },
     "insper-2026.2/exercises/mlp.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/exercises/mlp/",
       "status": "ok",
-      "bytes": 26981
+      "bytes": 26996
     },
     "insper-2026.2/exercises/vae.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/exercises/vae/",
-      "status": "HTTP Error 404: Not Found"
+      "status": "ok",
+      "bytes": 19556
     },
     "insper-2026.2/exercises/submission.html": {
       "url": "https://insper.github.io/ann-dl/2026.2/exercises/submission/",
       "status": "ok",
-      "bytes": 9973
+      "bytes": 10167
     },
     "insper-2025.2/projects/eda.html": {
       "url": "https://insper.github.io/ann-dl/2025.2/projects/eda/",
@@ -37,17 +38,17 @@
     "insper-2025.2/projects/classification.html": {
       "url": "https://insper.github.io/ann-dl/2025.2/projects/classification/",
       "status": "ok",
-      "bytes": 12758
+      "bytes": 12797
     },
     "insper-2025.2/projects/regression.html": {
       "url": "https://insper.github.io/ann-dl/2025.2/projects/regression/",
       "status": "ok",
-      "bytes": 12680
+      "bytes": 12719
     },
     "insper-2025.2/projects/generative.html": {
       "url": "https://insper.github.io/ann-dl/2025.2/projects/generative/",
       "status": "ok",
-      "bytes": 5406
+      "bytes": 5386
     },
     "template/index.html": {
       "url": "https://repo-classes.github.io/ann-dl/",
