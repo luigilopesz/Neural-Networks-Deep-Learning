@@ -1,6 +1,6 @@
 ---
 exercise: mlp
-ai_use: "Claude Code (Anthropic) assisted with drafting the from-scratch MLP, the experiment scripts, figures and this report; the author reviewed, understood, and validated every derivation, gradient and result before submission."
+ai_use: "An AI coding assistant helped with drafting the from-scratch MLP, the experiment scripts, figures and this report; the author reviewed, understood, and validated every derivation, gradient and result before submission."
 ---
 
 Four exercises, one question: what does a hidden layer buy you?
