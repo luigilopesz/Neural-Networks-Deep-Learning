@@ -143,6 +143,8 @@ plugins:
       enabled: !ENV [CI, false]
       repository: luigilopesz/Neural-Networks-Deep-Learning
       branch: main
+      exclude_committers:
+        - claude
   - search
   - badges
   - minify:
