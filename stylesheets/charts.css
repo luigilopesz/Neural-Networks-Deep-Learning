@@ -1,0 +1,100 @@
+/* Interactive figures: the frame around the ECharts canvas. */
+
+.chart {
+  width: 100%;
+  height: 460px;
+  margin: 1.6rem 0 1.4rem;
+}
+
+.chart--tall {
+  height: 620px;
+}
+
+.chart--short {
+  height: 400px;
+}
+
+/* Static PNG shown until the canvas takes over — and left in place if it never
+   does, so the report still has its figures without JavaScript. */
+.chart img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* Control strip under a figure (sliders, toggles). */
+.chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 1rem;
+  margin: -1rem 0 1.6rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.35rem;
+  background: var(--md-code-bg-color);
+  font-size: 0.72rem;
+}
+
+.chart-controls label {
+  color: var(--md-default-fg-color--light);
+  white-space: nowrap;
+}
+
+.chart-controls output {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+
+.chart-controls input[type="range"] {
+  flex: 1 1 12rem;
+  min-width: 8rem;
+  accent-color: var(--md-primary-fg-color);
+}
+
+.chart-controls button {
+  cursor: pointer;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--md-default-fg-color--light);
+  font: inherit;
+}
+
+.chart-controls button[aria-pressed="true"] {
+  border-color: var(--md-primary-fg-color);
+  background: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+
+.chart-readout {
+  color: var(--md-default-fg-color--light);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-readout strong {
+  color: var(--md-default-fg-color);
+}
+
+/* A one-line takeaway printed under a figure, in the page's own voice. */
+.chart-note {
+  margin: -0.4rem 0 1.6rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+@media screen and (max-width: 60em) {
+  .chart {
+    height: 380px;
+  }
+
+  .chart--tall {
+    height: 520px;
+  }
+}
