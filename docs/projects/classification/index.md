@@ -26,10 +26,6 @@ is small: **+4.27 %** in PR-AUC, against the **+10 %** we set as the success cri
 training. With only the measurements of the day itself, both models stop at a precision of
 about 8–9 % when they catch 80 % of the floods.
 
-!!! warning "Synthetic data"
-    The dataset is generated, not observed (see the [EDA](../eda/index.md)). The methods are
-    real; the numbers describe a simulator, not flood risk in Asia.
-
 **Code.** All code for this delivery is in [`code/`](https://github.com/luigilopesz/Neural-Networks-Deep-Learning/tree/main/docs/projects/classification/code):
 
 | file | role | reads the test set? |
