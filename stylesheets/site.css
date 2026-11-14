@@ -1,0 +1,605 @@
+/* Site theme for the ANN & Deep Learning reports. Loaded after charts.css.
+ *
+ * Everything is done by remapping Material's own CSS variables and styling the
+ * HTML Material generates, so no exercise page needs to know about it.
+ *
+ * Layout idea: running text sits in one narrow, centred column (--ann-prose);
+ * figures, charts, tables and code break out to the full content width, the way
+ * a paper's figures run wider than its text.
+ *
+ * Type: Schibsted Grotesk (theme.font.text) for interface, headings and tables;
+ * Source Serif 4 for running text; JetBrains Mono (theme.font.code) for code.
+ */
+
+:root {
+  --ann-serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --ann-prose: 33rem;
+  --ann-radius: 0.35rem;
+}
+
+/* ------------------------------------------------------------------ palette
+ * One accent (a deep petrol teal), cool neutrals, same structure in both modes.
+ * Dark paper is #1b1d1f on purpose: charts.js punches its symbols out in that colour. */
+
+body[data-md-color-scheme="default"] {
+  --ann-paper: #ffffff;
+  --ann-sunken: #f5f6f8;
+  --ann-sunken-2: #eaedf1;
+  --ann-ink: #1a2029;
+  --ann-ink-soft: #566070;
+  --ann-ink-faint: #7a8494;
+  --ann-rule: #dfe3e9;
+  --ann-accent: #0b6b72;
+  --ann-accent-strong: #07555b;
+  --ann-accent-wash: #0b6b7214;
+  --ann-on-accent: #ffffff;
+
+  --md-code-hl-keyword-color: #0b6b72;
+  --md-code-hl-function-color: #2b5cb8;
+  --md-code-hl-string-color: #9a4b13;
+  --md-code-hl-number-color: #a5412f;
+  --md-code-hl-constant-color: #6d4fa3;
+  --md-code-hl-special-color: #b23a6f;
+  --md-code-hl-comment-color: #6a7485;
+}
+
+body[data-md-color-scheme="slate"] {
+  --ann-paper: #1b1d1f;
+  --ann-sunken: #222528;
+  --ann-sunken-2: #2a2d31;
+  --ann-ink: #e5e8ec;
+  --ann-ink-soft: #a4acb8;
+  --ann-ink-faint: #7d8591;
+  --ann-rule: #33373c;
+  --ann-accent: #5cc8c4;
+  --ann-accent-strong: #86dbd7;
+  --ann-accent-wash: #5cc8c41a;
+  --ann-on-accent: #0c1b1b;
+
+  --md-code-hl-keyword-color: #5cc8c4;
+  --md-code-hl-function-color: #8fb4ff;
+  --md-code-hl-string-color: #e2a672;
+  --md-code-hl-number-color: #f0907a;
+  --md-code-hl-constant-color: #b9a0f0;
+  --md-code-hl-special-color: #f08dbb;
+  --md-code-hl-comment-color: #8b94a3;
+}
+
+body[data-md-color-scheme] {
+  --md-default-bg-color: var(--ann-paper);
+  --md-default-fg-color: var(--ann-ink);
+  --md-default-fg-color--light: var(--ann-ink-soft);
+  --md-default-fg-color--lighter: var(--ann-ink-faint);
+  --md-default-fg-color--lightest: var(--ann-rule);
+
+  --md-primary-fg-color: var(--ann-accent);
+  --md-primary-fg-color--light: var(--ann-accent);
+  --md-primary-fg-color--dark: var(--ann-accent-strong);
+  --md-primary-bg-color: var(--ann-on-accent);
+  --md-primary-bg-color--light: var(--ann-on-accent);
+  --md-accent-fg-color: var(--ann-accent-strong);
+  --md-accent-fg-color--transparent: var(--ann-accent-wash);
+  --md-accent-bg-color: var(--ann-on-accent);
+
+  --md-typeset-color: var(--ann-ink);
+  --md-typeset-a-color: var(--ann-accent);
+  --md-typeset-mark-color: var(--ann-accent-wash);
+  --md-typeset-table-color: var(--ann-rule);
+  --md-typeset-table-color--light: var(--ann-sunken);
+
+  --md-code-fg-color: var(--ann-ink);
+  --md-code-bg-color: var(--ann-sunken);
+  --md-code-hl-color: var(--ann-accent);
+  --md-code-hl-color--light: var(--ann-accent-wash);
+  --md-code-hl-name-color: var(--ann-ink);
+  --md-code-hl-operator-color: var(--ann-ink-soft);
+  --md-code-hl-punctuation-color: var(--ann-ink-soft);
+  --md-code-hl-generic-color: var(--ann-ink-soft);
+  --md-code-hl-variable-color: var(--ann-ink-soft);
+
+  --md-footer-bg-color: var(--ann-sunken);
+  --md-footer-bg-color--dark: var(--ann-sunken-2);
+  --md-footer-fg-color: var(--ann-ink);
+  --md-footer-fg-color--light: var(--ann-ink-soft);
+  --md-footer-fg-color--lighter: var(--ann-ink-faint);
+}
+
+::selection {
+  background: var(--ann-accent-wash);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ann-accent);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------- header
+ * Quiet: paper background with a hairline, instead of a coloured bar. Re-pointing
+ * Material's primary variables on .md-header flips every rule inside it at once. */
+
+.md-header {
+  --md-primary-fg-color: var(--ann-paper);
+  --md-primary-bg-color: var(--ann-ink);
+  --md-primary-bg-color--light: var(--ann-ink-soft);
+  border-bottom: 1px solid var(--ann-rule);
+  box-shadow: none;
+}
+
+.md-header[data-md-state="shadow"] {
+  box-shadow: 0 0.5rem 1rem -0.75rem rgba(0, 0, 0, 0.28);
+}
+
+.md-header__title {
+  font-weight: 700;
+  letter-spacing: -0.005em;
+}
+
+.md-search__form,
+.md-search__form:hover {
+  background-color: var(--ann-sunken);
+  border-radius: var(--ann-radius);
+}
+
+.md-search__form:hover {
+  background-color: var(--ann-sunken-2);
+}
+
+.md-search__input::placeholder {
+  color: var(--ann-ink-soft);
+}
+
+/* ------------------------------------------------------------------ sidebar */
+
+.md-nav {
+  font-size: 0.72rem;
+}
+
+/* The header already carries the site name; on the drawer (small screens) it stays. */
+@media screen and (min-width: 76.25em) {
+  .md-nav--primary > .md-nav__title {
+    display: none;
+  }
+}
+
+.md-nav__link--active {
+  font-weight: 700;
+}
+
+.md-nav--primary > .md-nav__list > .md-nav__item--section > .md-nav__link {
+  color: var(--ann-ink);
+  font-weight: 700;
+}
+
+.md-nav--secondary .md-nav__title {
+  font-weight: 700;
+  color: var(--ann-ink);
+}
+
+/* ------------------------------------------------------------- page layout */
+
+.md-grid {
+  max-width: 70rem;
+}
+
+.md-content__inner {
+  margin-bottom: 2rem;
+}
+
+/* The running-text column. Anything not listed here (figures, charts, tables,
+ * code, display maths) keeps the full width of the content area. A paragraph
+ * that holds only a picture is a figure, so it is left out. */
+.md-content__inner
+  > :is(h1, h2, h3, h4, h5, h6, p, ul, ol, dl, blockquote, hr, .admonition, details):not(
+    :has(> img:only-child, > a.glightbox:only-child > img)
+  ),
+.md-content__inner > .ann-hero {
+  max-width: var(--ann-prose);
+  margin-inline: auto;
+}
+
+/* --------------------------------------------------------------- typography */
+
+.md-content__inner.md-typeset {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+}
+
+.md-content__inner :is(p, li, dd, blockquote) {
+  font-family: var(--ann-serif);
+}
+
+.md-typeset strong {
+  font-weight: 600;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  color: var(--ann-ink);
+  font-family: var(--md-text-font-family);
+  text-wrap: balance;
+}
+
+.md-typeset h1 {
+  font-size: clamp(1.65rem, 0.9rem + 2.9vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0.4rem 0 0.7em;
+}
+
+.md-typeset h2 {
+  border-top: 1px solid var(--ann-rule);
+  font-size: 1.5em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 2.6em 0 0.7em;
+  padding-top: 1.1em;
+}
+
+.md-typeset h3 {
+  font-size: 1.15em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 2em 0 0.55em;
+}
+
+.md-typeset h4 {
+  color: var(--ann-ink-soft);
+  font-size: 0.95em;
+  font-weight: 700;
+  margin: 1.6em 0 0.4em;
+}
+
+.md-typeset .headerlink {
+  color: var(--ann-ink-faint);
+}
+
+.md-typeset a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+.md-typeset a:hover {
+  text-decoration-color: currentColor;
+}
+
+.md-typeset :is(h1, h2, h3, h4, h5, h6) a,
+.md-typeset .headerlink,
+.md-typeset a.md-button,
+.md-typeset .md-nav a {
+  text-decoration: none;
+}
+
+.md-typeset blockquote {
+  border-left: 0.2rem solid var(--ann-accent);
+  color: var(--ann-ink-soft);
+  padding: 0.05em 0 0.05em 1em;
+}
+
+.md-typeset hr {
+  border-bottom: 1px solid var(--ann-rule);
+}
+
+.md-typeset mark {
+  background-color: var(--ann-accent-wash);
+  color: inherit;
+  padding: 0 0.15em;
+}
+
+/* Maths: a long display equation scrolls instead of breaking the layout. */
+.md-typeset mjx-container[display="true"],
+.md-typeset .arithmatex {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* --------------------------------------------------------------------- code */
+
+.md-typeset code,
+.md-typeset kbd,
+.md-typeset pre {
+  font-size: 0.8em;
+}
+
+.md-typeset :not(pre) > code {
+  background-color: var(--ann-sunken);
+  border-radius: 0.25rem;
+  padding: 0.1em 0.3em;
+}
+
+.md-typeset pre > code {
+  border: 1px solid var(--ann-rule);
+  border-radius: var(--ann-radius);
+  line-height: 1.6;
+}
+
+.md-typeset .highlight {
+  margin: 1.4em 0;
+}
+
+.md-typeset kbd {
+  background-color: var(--ann-sunken);
+  border-radius: 0.25rem;
+}
+
+/* ------------------------------------------------------------------- tables
+ * Paper style: heavy rule above and below, a light rule under the header, hairlines
+ * between rows, no vertical lines, tabular figures so columns of numbers line up. */
+
+.md-typeset__scrollwrap {
+  margin-block: 1.5em;
+  text-align: center;
+}
+
+.md-typeset__table {
+  text-align: left;
+}
+
+.md-typeset table:not([class]) {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--ann-ink);
+  border-radius: 0;
+  border-top: 2px solid var(--ann-ink);
+  font-family: var(--md-text-font-family);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+}
+
+.md-typeset table:not([class]) th {
+  background: transparent;
+  border-bottom: 1px solid var(--ann-ink);
+  font-weight: 700;
+  padding: 0.7em 1.1em;
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--ann-rule);
+  padding: 0.6em 1.1em;
+}
+
+.md-typeset table:not([class]) tbody tr:first-child td {
+  border-top: 0;
+}
+
+.md-typeset table:not([class]) tbody tr:hover td {
+  background-color: var(--ann-sunken);
+}
+
+.md-typeset table:not([class]) :is(td, th) code {
+  font-size: 0.92em;
+  overflow-wrap: normal; /* an identifier keeps its column wide enough instead of snapping mid-word */
+}
+
+/* The Results summary is the table a reader is sent to first: give it the full
+ * width and an accent rule. Matches the section whatever number Material appends. */
+.md-typeset [id^="results-summary"] ~ .md-typeset__scrollwrap .md-typeset__table {
+  display: block;
+}
+
+.md-typeset [id^="results-summary"] ~ .md-typeset__scrollwrap table:not([class]) {
+  border-top-color: var(--ann-accent);
+  display: table;
+  width: 100%;
+}
+
+.md-typeset [id^="results-summary"] ~ .md-typeset__scrollwrap table:not([class]) th {
+  background-color: var(--ann-sunken);
+}
+
+/* ------------------------------------------------------------------ figures */
+
+.md-content__inner p > img:only-child,
+.md-content__inner p > a.glightbox:only-child > img,
+.md-content__inner figure > img,
+.md-content__inner figure > a.glightbox > img {
+  background: #ffffff;
+  border: 1px solid var(--ann-rule);
+  border-radius: 0.45rem;
+  display: block;
+  margin: 1.6em auto;
+}
+
+.md-content__inner figure > img,
+.md-content__inner figure > a.glightbox > img {
+  margin-bottom: 0;
+}
+
+/* The PNG shown inside an interactive chart is the chart's fallback, not a figure. */
+.md-typeset .chart img {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  margin: 0 auto;
+}
+
+.md-typeset .chart {
+  border: 1px solid var(--ann-rule);
+  border-radius: 0.45rem;
+}
+
+.md-typeset figcaption {
+  color: var(--ann-ink-soft);
+  font-family: var(--md-text-font-family);
+  font-size: 0.7rem;
+  font-style: normal;
+  line-height: 1.5;
+  margin: 0.8em auto 1.6em;
+  max-width: var(--ann-prose);
+}
+
+.md-typeset .caption-prefix {
+  font-weight: 700;
+}
+
+/* Result figures are white plates; in dark mode they glare, so take the edge off. */
+body[data-md-color-scheme="slate"] .md-content__inner :is(p, figure) > img:not(.twemoji, .emojione),
+body[data-md-color-scheme="slate"] .md-content__inner a.glightbox > img {
+  filter: brightness(0.9) contrast(1.02);
+}
+
+/* -------------------------------------------------------------- admonitions */
+
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: var(--ann-radius);
+  box-shadow: none;
+  font-size: 0.78rem;
+  margin-block: 1.6em;
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  font-family: var(--md-text-font-family);
+}
+
+.md-typeset .admonition > :is(p, ul, ol):last-child {
+  margin-bottom: 0.9em;
+}
+
+/* ------------------------------------------------------------ source footer */
+
+.md-source-file {
+  color: var(--ann-ink-soft);
+  font-family: var(--md-text-font-family);
+  margin-top: 3rem;
+}
+
+.md-footer {
+  border-top: 1px solid var(--ann-rule);
+}
+
+/* --------------------------------------------------------------- home page */
+
+.ann-hero {
+  margin-bottom: 1.8rem;
+}
+
+.ann-hero h1 {
+  margin-top: 0.6rem;
+  max-width: 22ch;
+}
+
+.ann-hero p {
+  color: var(--ann-ink-soft);
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.md-typeset .ex-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0 0 2.4rem;
+}
+
+.md-typeset .ex-card {
+  background: var(--ann-paper);
+  border: 1px solid var(--ann-rule);
+  border-radius: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.1rem 1.2rem 1rem;
+  position: relative;
+  transition: border-color 0.15s;
+}
+
+.md-typeset .ex-card:hover,
+.md-typeset .ex-card:focus-within {
+  border-color: var(--ann-accent);
+}
+
+.md-typeset .ex-glyph {
+  color: var(--ann-ink-faint);
+  fill: none;
+  height: 2.7rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+  width: 2.7rem;
+}
+
+.md-typeset .ex-glyph .hi {
+  fill: var(--ann-accent);
+  stroke: none;
+}
+
+.md-typeset .ex-glyph .node {
+  fill: var(--ann-paper);
+}
+
+.md-typeset .ex-title {
+  border: 0;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+  margin: 0.35rem 0 0;
+  padding: 0;
+}
+
+.md-typeset .ex-title a {
+  color: var(--ann-ink);
+  text-decoration: none;
+}
+
+/* The whole card is the link: stretch the title's hit area over it. */
+.md-typeset .ex-title a::after {
+  border-radius: 0.55rem;
+  content: "";
+  inset: 0;
+  position: absolute;
+}
+
+.md-typeset .ex-title a:focus-visible {
+  outline: none;
+}
+
+.md-typeset .ex-title a:focus-visible::after {
+  outline: 2px solid var(--ann-accent);
+  outline-offset: 2px;
+}
+
+.md-typeset .ex-desc {
+  color: var(--ann-ink-soft);
+  font-family: var(--ann-serif);
+  font-size: 0.8rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.md-typeset .ex-due {
+  border-top: 1px solid var(--ann-rule);
+  color: var(--ann-ink-soft);
+  font-family: var(--md-text-font-family);
+  font-size: 0.7rem;
+  margin: auto 0 0;
+  padding-top: 0.7rem;
+}
+
+@media screen and (max-width: 40em) {
+  .md-typeset .ex-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ann-hero p {
+    font-size: 1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .ex-card {
+    transition: none;
+  }
+}
