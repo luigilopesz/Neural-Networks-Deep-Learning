@@ -21,6 +21,7 @@ PAGES = {
     "insper-2026.2/exercises/mlp.html": "https://insper.github.io/ann-dl/2026.2/exercises/mlp/",
     "insper-2026.2/exercises/vae.html": "https://insper.github.io/ann-dl/2026.2/exercises/vae/",
     "insper-2026.2/exercises/submission.html": "https://insper.github.io/ann-dl/2026.2/exercises/submission/",
+    "insper-2026.2/projects/supervised.html": "https://insper.github.io/ann-dl/2026.2/projects/supervised/",
     # last semester's project pages: structural reference until 2026.2 publishes its own
     "insper-2025.2/projects/eda.html": "https://insper.github.io/ann-dl/2025.2/projects/eda/",
     "insper-2025.2/projects/classification.html": "https://insper.github.io/ann-dl/2025.2/projects/classification/",

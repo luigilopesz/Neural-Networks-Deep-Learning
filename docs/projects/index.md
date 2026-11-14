@@ -120,34 +120,39 @@ the ablation in Phase 3 removes each group in turn to show what it buys.
 
 ## Phase 3 — Classification (`projects/classification/`)
 
-The model is the from-scratch MLP from the MLP exercise (`docs/exercises/mlp/code/mlp.py`),
-reused unchanged: layer sizes as an argument, sigmoid output, binary cross-entropy, mini-batch
-gradient descent. Additions the imbalance needs, implemented by hand in the same style:
-class-weighted cross-entropy (or oversampling of the positive class in each mini-batch) and
-early stopping on validation PR-AUC.
+*Delivered: see the [Classification report](classification/index.md). This section records
+what was built and how it departs from the original plan.*
 
-Baselines, in this order, each reported on validation and test:
+**Features.** The EDA pipeline is reused unchanged: the 21 same-day features of `pipeline.py`.
+The window, lag and anomaly features of Phase 2 were not built, and the report names them as
+the first thing to add.
 
-1. Majority class ("never floods") — the accuracy trap, shown once.
-2. Monsoon gate ("floods whenever `monsoon_season = 1`") — recall 100 %, precision 5 %.
-3. Persistence ("floods tomorrow if it flooded today").
-4. Logistic regression on the same features — the linear reference.
-5. The dataset's own `flood_risk_score` at \(t\) — the leaky reference, labelled as such.
-6. The MLP.
+**Model.** An MLP in PyTorch (21 → 64 → 32 → 1, ReLU, He initialisation, one logit,
+`BCEWithLogitsLoss`), trained with AdamW and early stopping on validation PR-AUC. The original
+plan was to reuse the from-scratch NumPy MLP of the MLP exercise unchanged. The statement,
+however, requires Adam/AdamW or SGD with momentum, two regularisation techniques compared
+(weight decay, dropout) and a logit output with `BCEWithLogitsLoss`. That exercise MLP has only
+tanh layers and plain gradient descent, so PyTorch was the simpler route. The imbalance is
+handled by `pos_weight` = negatives / positives on the training split (46.29), with no
+resampling.
 
-Metrics: ROC-AUC, PR-AUC (the headline), precision and recall at the chosen threshold, the
-confusion matrix, and a calibration curve. The threshold is set on validation for 80 % recall,
-and the report states the precision that buys. Training and validation loss curves per epoch.
+**Baselines,** in this order, on validation and test:
 
-Explainability, so every prediction can be argued with:
+1. majority class ("never floods"), the accuracy trap;
+2. monsoon gate ("floods whenever `monsoon_season = 1`");
+3. logistic regression on the same features, the linear reference.
 
-- ablation by feature group (drop one group, retrain, report the PR-AUC change);
-- permutation importance on validation;
-- partial-dependence curves for the top five features (rainfall 7-day sum, river-level anomaly,
-  soil moisture, ...), which is where the report says *what* the model learned;
-- error analysis: which stations, which months, and what the missed floods looked like the day
-  before;
-- one worked example: a single station-day, its feature vector, and the probability, traced.
+The MLP comes last. Persistence and the leaky `flood_risk_score` reference were dropped to
+keep the delivery small.
+
+**Metrics.** PR-AUC is the headline, with ROC-AUC, the confusion matrix, per-class
+precision/recall/F1, macro F1 and a calibration curve. The threshold is set on validation for
+80 % recall, and the test set is read once, by one script, with 3 seeds.
+
+**Explainability.** Error analysis by basin and by month, the worst false negatives and false
+positives, and permutation importance on validation compared with the EDA. The ablation by
+feature group, the partial-dependence curves and the worked example were left out; the 21
+same-day features make the first two less informative than planned.
 
 ## Phase 4 — Generative (`projects/generative/`)
 

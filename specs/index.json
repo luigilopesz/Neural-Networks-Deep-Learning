@@ -69,6 +69,11 @@
       "url": "https://repo-classes.github.io/ann-dl/projects/eda/",
       "status": "ok",
       "bytes": 8304
+    },
+    "insper-2026.2/projects/supervised.html": {
+      "url": "https://insper.github.io/ann-dl/2026.2/projects/supervised/",
+      "status": "ok",
+      "bytes": 20585
     }
   }
 }

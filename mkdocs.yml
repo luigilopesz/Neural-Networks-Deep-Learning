@@ -204,3 +204,4 @@ nav:
   - Projects:
     - Project brief: ./projects/index.md
     - EDA: ./projects/eda/index.md
+    - Classification: ./projects/classification/index.md
